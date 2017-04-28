@@ -98,7 +98,7 @@ public final class Modeler {
 
         // Create the model for the entire neighbourhood and save it in a file
         JavaPairDStream<String, Float> sumAllAsPairs = sumAll.mapToPair(new NGSITupleToPair(true));
-        sumAllAsPairs.toJavaDStream().foreachRDD(new HashMapModeler(modelsBasePath, 24, true));
+        sumAllAsPairs.toJavaDStream().foreachRDD(new HashMapModeler(modelsBasePath, 12, true));
 
         // Translate the NGSI tuples to a <String, Float> pair
         JavaPairDStream<String, Float> pairs = tuples.mapToPair(new NGSITupleToPair(true));
@@ -115,7 +115,7 @@ public final class Modeler {
         } // if
         
         // Create the model for each home and save it in a file
-        sumByKeyAsPairs.toJavaDStream().foreachRDD(new HashMapModeler(modelsBasePath, 24, true));
+        sumByKeyAsPairs.toJavaDStream().foreachRDD(new HashMapModeler(modelsBasePath, 12, true));
         
         // Start the app
         ssc.start();

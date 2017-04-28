@@ -98,7 +98,7 @@ public final class Detector {
         
         // Read the model for the entire neighbourhood and compare it with the current data
         JavaPairDStream<String, Float> sumAllAsPairs = sumAll.mapToPair(new NGSITupleToPair(true));
-        sumAllAsPairs.toJavaDStream().foreachRDD(new HashMapDetector(modelsBasePath, 24, true));
+        sumAllAsPairs.toJavaDStream().foreachRDD(new HashMapDetector(modelsBasePath, 12, true));
         
         // Translate the NGSI tuples to a <String, Float> pair
         JavaPairDStream<String, Float> pairs = tuples.mapToPair(new NGSITupleToPair(true));
@@ -115,7 +115,7 @@ public final class Detector {
         } // if
         
         // Read the model for all the homes and compare them with the current data
-        sumByKeyAsPairs.toJavaDStream().foreachRDD(new HashMapDetector(modelsBasePath, 24, true));
+        sumByKeyAsPairs.toJavaDStream().foreachRDD(new HashMapDetector(modelsBasePath, 12, true));
         
         // Start the app
         ssc.start();

@@ -17,7 +17,7 @@
 
 # Regularly update (every 5 seconds) a random trash water meter
 # The selected smart trash meter updates values in [2*X, 2*X+1, 2*X+2, 2*X+3, 2*X+4] range
-SWM=$(( $RANDOM % 50 + 1 ))
+STM=$(( $RANDOM % 100 + 1 ))
 
 while true; do
         VALUE=$(( $RANDOM % 5 + (2 * $STM) ))

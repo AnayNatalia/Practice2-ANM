@@ -54,6 +54,17 @@ public class HashMapModeler implements VoidFunction<
         this.models = new HashMap<>();
     } // HashMapModeler
 
+	public float max(float a, float b) {
+		float maximo = 0;
+		if (a >= b){
+			maximo = a;
+		}
+		else{
+			maximo = b;
+		}
+		return maximo;
+	}
+	
     @Override
     public void call(JavaRDD<Tuple2<String, Float>> rdd) {
         List<Tuple2<String, Float>> list = rdd.collect();
@@ -66,11 +77,18 @@ public class HashMapModeler implements VoidFunction<
             HashMap<Integer, Float> model = models.get(modelName);
             
             if (model == null) {
-                model = new HashMap<>(24);
-                models.put(modelName, model);
+                model = new HashMap<>(numSlots);
+				
+				for(int i=0; i<numSlots; i++){
+					model.put(new Integer (i), new Float (0) );
+				}
+				
+				models.put(modelName, model)
+				
             } // if
             
-            model.put(calendar.get(Calendar.MINUTE) % numSlots, modelValue);
+			float prevValue = model.get(calendar.get(Calendar.MINUTE) % numSlots);
+            model.put(calendar.get(Calendar.MINUTE) % numSlots, max(modelValue, prevValue));
             
             try {
                 save(model, modelName);
@@ -97,10 +115,10 @@ public class HashMapModeler implements VoidFunction<
                         System.out.println("Saving " + i + "=0");
                     } // if
                 } else {
-                    writer.println(i + "=" + model.get(i));
+                    writer.println(i + "=" + value);
                     
                     if (debug) {
-                        System.out.println("Saving " + i + "=" + model.get(i));
+                        System.out.println("Saving " + i + "=" + value);
                     } // if
                 } // if else
             } // for

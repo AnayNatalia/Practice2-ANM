@@ -36,7 +36,7 @@ done
 while true; do
         COUNTER=1
 
-        while [ $COUNTER -lt 51 ]; do
+        while [ $COUNTER -lt 101 ]; do
                 VALUE=$(( $RANDOM % 5 + $COUNTER ))
                 DATE=`date +%Y-%m-%d:%H:%M:%S`
                 echo "[$DATE] Updating entity stm$COUNTER with value $VALUE"
